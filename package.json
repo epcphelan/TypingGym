@@ -36,7 +36,6 @@
     "axios": "^0.18.0",
     "css-loader": "^0.28.11",
     "express": "^4.16.3",
-    "node-sass": "^4.9.0",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
