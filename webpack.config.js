@@ -1,104 +1,73 @@
-var Path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var Webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require("path");
+const webpack = require('webpack');
 
-var isProduction = process.env.NODE_ENV === 'production';
-var cssOutputPath = isProduction ? '/styles/app.[hash].css' : '/styles/app.css';
-var jsOutputPath = isProduction ? '/scripts/app.[hash].js' : '/scripts/app.js';
-var ExtractSASS = new ExtractTextPlugin(cssOutputPath);
-var port = isProduction ? process.env.PORT || 8080 : process.env.PORT || 3000;
-
-// ------------------------------------------
-// Base
-// ------------------------------------------
-var webpackConfig = {
-  resolve: {
-    extensions: ['', '.js', '.jsx'],
-  },
-  plugins: [
-    new Webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(isProduction ? 'production' : 'development'),
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: Path.join(__dirname, './src/index.html'),
-    }),
+module.exports = {
+  mode: 'development',
+  entry: [
+    './src/app/index.js'
   ],
-  module: {
-    loaders: [{
-      test: /.jsx?$/,
-      include: Path.join(__dirname, './src/app'),
-      loader: 'babel',
-    }],
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "./bundle.js",
+    publicPath: '/'
   },
-};
-
-// ------------------------------------------
-// Entry points
-// ------------------------------------------
-webpackConfig.entry = !isProduction
-  ? ['webpack-dev-server/client?http://localhost:' + port,
-     'webpack/hot/dev-server',
-     Path.join(__dirname, './src/app/index')]
-  : [Path.join(__dirname, './src/app/index')];
-
-// ------------------------------------------
-// Bundle output
-// ------------------------------------------
-webpackConfig.output = {
-  path: Path.join(__dirname, './dist'),
-  filename: jsOutputPath,
-};
-
-// ------------------------------------------
-// Devtool
-// ------------------------------------------
-webpackConfig.devtool = isProduction ? 'source-map' : 'cheap-eval-source-map';
-
-// ------------------------------------------
-// Module
-// ------------------------------------------
-isProduction
-  ? webpackConfig.module.loaders.push({
-      test: /\.scss$/,
-      loader: ExtractSASS.extract(['css', 'sass']),
-    })
-  : webpackConfig.module.loaders.push({
-      test: /\.scss$/,
-      loaders: ['style', 'css', 'sass'],
-    });
-
-// ------------------------------------------
-// Plugins
-// ------------------------------------------
-isProduction
-  ? webpackConfig.plugins.push(
-      new Webpack.optimize.OccurenceOrderPlugin(),
-      new Webpack.optimize.UglifyJsPlugin({
-        compressor: {
-          warnings: false,
-        },
-      }),
-      ExtractSASS
-    )
-  : webpackConfig.plugins.push(
-      new Webpack.HotModuleReplacementPlugin()
-    );
-
-// ------------------------------------------
-// Development server
-// ------------------------------------------
-if (!isProduction) {
-  webpackConfig.devServer = {
-    contentBase: Path.join(__dirname, './'),
-    hot: true,
-    port: port,
-    inline: true,
-    progress: true,
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
+  },
+  devServer: {
+    contentBase: './dist',
     historyApiFallback: true,
-  };
-}
+    hot: true,
+    inline: true,
+    port: 3000, // Defaults to 8080
+  },
 
-module.exports = webpackConfig;
+  module: {
+    rules: [
+      {
+        test: /\.json$/,
+        use: ['json-loader']
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      },
+      {
+        test: /\.css$/,
+        use: [
+          //MiniCssExtractPlugin.loader,
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[path][name]-[local]'
+            }
+          }]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: "style-loader" // creates style nodes from JS strings
+          },
+          {
+            loader: "css-loader" // translates CSS into CommonJS
+          },
+          {
+            loader: "sass-loader" // compiles Sass to CSS
+          }
+        ]
+      },
+      {
+        test: /\.jpe?g$|\.gif$|\.png$|\.ttf$|\.eot$|\.svg$/,
+        use: 'file-loader?name=[name].[ext]?[hash]'
+      },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/fontwoff'
+      }
+    ]
+  }
+};
