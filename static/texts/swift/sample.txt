@@ -1,0 +1,30 @@
+-(void)transformWithProgress:(CGFloat)progress AndView:(UIView*)view{
+
+}
+
+-(void)setContentLength:(CGFloat)aContentLength{
+
+    self->contentLength = aContentLength;
+
+    self.stickDistance = self.sticky ? self.contentLength * self.panThreshold : 0.0;
+
+    NSLog(@"stickDistance: %f", self.stickDistance);
+}
+
+
+-(void)setEdge:(Edge)edge{
+
+    [super setEdge:edge];
+
+    self.navigationExitPanGestureRecognizer.edges = [HelperFunctions oppositeAndToUIRectEdgeOfEdge:edge];
+}
+
+-(void)setTransformType:(ElasticTransitionBackgroundTransform)aTransformType{
+
+    self->transformType= aTransformType;
+
+    if (self.container != nil){
+
+        [self.container layoutIfNeeded];
+    }
+}

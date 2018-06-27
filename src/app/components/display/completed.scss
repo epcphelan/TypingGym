@@ -1,0 +1,48 @@
+.completed{
+  display: none;
+  margin-top: 10px;
+  //text-align: center;
+  width: 100%;
+  .h4{
+    margin:0px;
+    padding: 0;
+  }
+  .terminal-prompt{
+    background-color: transparent;
+    color: white;
+    border:none;
+    padding:10px;
+    font-size: 16px;
+    &:focus{
+      outline: none;
+    }
+  }
+  .stats-summary{
+    display: none;
+    .stats-block{
+      margin: 0 20px 0 20px;
+      display: inline-block;
+    }
+  }
+  .weakest-keys{
+    h4{
+      margin:10px 0;
+      padding:0;
+    }
+    ul{
+      margin: 0;
+      padding: 0;
+    }
+    .weak-key-block{
+      display: inline-block;
+      margin:0 20px 0 20px;
+      .detail{
+        margin:3px;
+        display: inline-block;
+      }
+    }
+  }
+  &.displayed{
+    display: inline-block;
+  }
+}

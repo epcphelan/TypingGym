@@ -1,0 +1,53 @@
+.stats-series{
+  margin: 25px 0 20px 0;
+  height: 45px;
+  width:100%;
+  max-width: 880px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: inline-block;
+  text-align: center;
+  .data-point{
+    width: 1%;
+    height:100%;
+    display: inline-block;
+    bottom:0;
+    margin:0 3px 0 3px;
+    position: relative;
+    transition: width 0.3s;
+    .accuracy{
+      //border-radius: 5px 5px 0 0;
+      max-height: calc(100% - 3px);
+      position: absolute;
+      bottom: 0;
+      border-top: 3px solid #288feb;
+      width:100%;
+      opacity: 1;
+      transition: opacity 0.3s;
+      animation: growDataPoint 0.5s forwards;
+      &:hover{
+        opacity: 0.45;
+      }
+    }
+    .wpm{
+      max-height: calc(100% - 3px);
+      border-radius: 5px 5px 0 0;
+      position: absolute;
+      bottom:0;
+      background-color: #28cb75;
+      width:100%;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+      animation: growDataPoint 0.5s forwards;
+      &:hover{
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+@keyframes growDataPoint {
+  from{
+    height: 0;
+  }
+}

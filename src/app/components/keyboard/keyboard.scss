@@ -1,0 +1,101 @@
+.type-assist{
+  display: inline-block;
+  width: 100%;
+  max-width: 880px;
+  height: 290px;
+  text-align: center;
+  margin-top: 5px;
+  .type-key{
+    font-size: .8em;
+    display: inline-block;
+    height: 16%;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 8px;
+    margin: 0.25% 0.5% 0.25% 0.5%;
+    position: relative;
+    background-color: rgba(255,255,255,0.5);
+    transition: background-color 0.3s;
+    -webkit-box-shadow: 10px 10px 23px -15px rgba(0,0,0,0.29);
+    -moz-box-shadow: 10px 10px 23px -15px rgba(0,0,0,0.29);
+    box-shadow: 10px 10px 23px -15px rgba(0,0,0,0.29);
+    .shift-char{
+      position: absolute;
+      width: 100%;
+      top:10%;
+    }
+    .low-char{
+      position: absolute;
+      width: 100%;
+      bottom:10%;
+    }
+    &.upper-lower-case-pair, &.large{
+      .shift-char{
+        top: calc(50% - .8em);
+      }
+      .low-char{
+        display: none;
+      }
+    }
+    &.xsmall{
+      width: 5.5%;
+    }
+    &.small {
+      width: 9%;
+    }
+    &.medium {
+      width: 10.5%;
+    }
+    &.large {
+      width : 14%;
+    }
+    &.xlarge{
+      width:32.5%;
+      margin-left:-6%;
+    }
+    &.isActive{
+      background: red !important;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+  }
+}
+.typing-fingers{
+  position: absolute;
+  bottom: -25px;
+  margin-left: auto;
+  margin-right: auto;
+  left:0;
+  right:0;
+  .finger{
+    background-color: rgba(255,255,255,0.1);
+    display: inline-block;
+    height: 100px;
+    width:35px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px 20px 0 0;
+    margin: 0 4px 0 4px;
+    opacity: 0.5;
+    &.active{
+      background-color: #288feb;
+    }
+    &.finger-4{
+      margin-right:24px;
+      height: 40px;
+    }
+    &.finger-5{
+      margin-left: 24px;
+      height: 40px;
+    }
+    &.finger-3, &.finger-6{
+      height: 80px;
+    }
+    &.finger-1, &.finger-8{
+      height:90px;
+    }
+    &.finger-0, &.finger-9{
+      height: 60px;
+    }
+  }
+}

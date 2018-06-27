@@ -1,0 +1,34 @@
+body {
+  color:white;
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  background-color: #150d2b;
+  background-image: linear-gradient(180deg, #150d2b, #242351);
+  .modal-mask{
+    background-color: rgba(100,100,100,0.2);
+    height: 100%;
+    width:100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+  }
+}
+.container {
+  position: fixed;
+  bottom: 0;
+  top:0;
+  width: 100%;
+  text-align: center;
+  height: 100%;
+  &.modal-displayed{
+    .modal-mask{
+      z-index: 1000;
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+var mocha = require('mocha');
+var chai = require('chai');
+var expect = chai.expect;
+var fs = require('fs');
+
+describe('README', function () {
+    var readme;
+    var items;
+    before(function () {
+        readme = fs.readFileSync('./README.md', 'utf8');
+    });
+
+    it('should be in alphabetical order within each category', function () {
+        var categories = (readme.split('---'));
+        categories.shift();
+        for (var i = 0; i < categories.length; i++) {
+            if (categories[i].indexOf('####') === -1) {
+                items = extractListNames(categories[i]);
+                expect(compareArrays(items, alphabetize(items))).to.be.true;
+            } else {
+                var subCategories = categories[i].split('####');
+                subCategories.shift();
+                for (var k = 0; k < subCategories.length; k++) {
+                    items = extractListNames(subCategories[k]);
+                    expect(compareArrays(items, alphabetize(items))).to.be.true;
+                }
+            }
+        }
+    })
+});
