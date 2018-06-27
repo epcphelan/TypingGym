@@ -1,67 +1,67 @@
-import axios from 'axios';
+import axios from "axios";
 
 const ActionTypes = {
   Keyboard: {
-    TabKey: 'TAB_KEY_PRESSED',
-    BackspaceKey: 'BACKSPACE_PRESSED',
-    ReturnKey: 'RETURN_KEY_PRESSED',
-    TypedChar: 'TYPED_CHAR_PRESSED',
+    TabKey: "TAB_KEY_PRESSED",
+    BackspaceKey: "BACKSPACE_PRESSED",
+    ReturnKey: "RETURN_KEY_PRESSED",
+    TypedChar: "TYPED_CHAR_PRESSED"
   },
   App: {
-    ShowComplete: 'SHOW_COMPLETED_MODAL',
-    HideComplete: 'HIDE_COMPLETED_MODAL',
-    LoadNewText: 'LOAD_NEW_TEXT',
-    SwitchTextType: 'SWITCH_TEXT_TYPE',
-    StartTraining: 'START_TRAINING_TIME',
-    StopTraining: 'STOP_TRAINING_TIME',
+    ShowComplete: "SHOW_COMPLETED_MODAL",
+    HideComplete: "HIDE_COMPLETED_MODAL",
+    LoadNewText: "LOAD_NEW_TEXT",
+    SwitchTextType: "SWITCH_TEXT_TYPE",
+    StartTraining: "START_TRAINING_TIME",
+    StopTraining: "STOP_TRAINING_TIME",
     Loading: {
       NewText: {
-        Update: 'LOADING_NEW_TEXT_UPDATE',
-      },
-    },
+        Update: "LOADING_NEW_TEXT_UPDATE"
+      }
+    }
   },
   Stats: {
-    SnapshotTest: 'TAKE_TEST_SNAPSHOT',
-    CalibrateMaxMin: 'CALIBRATE_STATS_MAX_MIN',
-    AddToHistory: 'ADD_TO_HISTORY',
-  },
+    SnapshotTest: "TAKE_TEST_SNAPSHOT",
+    CalibrateMaxMin: "CALIBRATE_STATS_MAX_MIN",
+    AddToHistory: "ADD_TO_HISTORY"
+  }
 };
 
-function startRecordingSession(startDate){
+function startRecordingSession(startDate) {
   return {
     type: ActionTypes.App.StartTraining,
-    startDate,
+    startDate
   };
 }
 
-function stopRecordingSession(){
+function stopRecordingSession() {
   return {
-    type: ActionTypes.App.StopTraining,
+    type: ActionTypes.App.StopTraining
   };
 }
 
 function charKeyPressed(keyValue) {
   return {
     type: ActionTypes.Keyboard.TypedChar,
-    keyValue,
+    keyValue
   };
 }
 
 function enterKeyPressed() {
   return {
-    type: ActionTypes.Keyboard.ReturnKey,
+    type: ActionTypes.Keyboard.ReturnKey
   };
 }
 
 function backspacePressed() {
   return {
-    type: ActionTypes.Keyboard.BackspaceKey,
+    type: ActionTypes.Keyboard.BackspaceKey
   };
 }
 
 function tabPressed() {
   return {
-    type: ActionTypes.Keyboard.TabKey,
+    type: ActionTypes.Keyboard.TabKey
   };
 }
 
@@ -69,81 +69,97 @@ function updateTextLoadingStatus(isLoading, success) {
   return {
     type: ActionTypes.App.Loading.NewText.Update,
     isLoading,
-    success,
+    success
   };
 }
 
 function addNewTextToApp(text) {
   return {
     type: ActionTypes.App.LoadNewText,
-    text,
+    text
   };
 }
 
 function changeTextType(textType) {
   return {
     type: ActionTypes.App.SwitchTextType,
-    textType,
+    textType
   };
 }
 
 function getSourceURLForFile(txtType) {
-  const staticRoot = '/static/texts/';
+  const staticRoot = "/static/texts/";
   switch (txtType) {
-    case 'js':
+    case "js":
       return `${staticRoot}js/sample.txt`;
-    case 'html':
+    case "html":
       return `${staticRoot}html/sample.txt`;
-    case 'prose':
+    case "prose":
       return `${staticRoot}prose/sample.txt`;
-    case 'swift':
+    case "swift":
       return `${staticRoot}swift/sample.txt`;
-    default :
+    default:
       return `${staticRoot}prose/sample.txt`;
   }
 }
+
+async function getDynamicUrlForSrc(txtType){
+  const listing = `/static/texts/${txtType}/listing.json`;
+  const res = await axios.get(listing);
+  const content = res.data;
+  const randIndex = Math.round(Math.random() * (content.length - 1));
+  console.log(randIndex)
+  return `/static/texts/${txtType}/${content[randIndex]}`;
+}
 function showComplete() {
   return {
-    type: ActionTypes.App.ShowComplete,
+    type: ActionTypes.App.ShowComplete
   };
 }
 
 function hideComplete() {
   return {
-    type: ActionTypes.App.HideComplete,
+    type: ActionTypes.App.HideComplete
   };
 }
 
-function addToHistory(){
+function addToHistory() {
   return {
-    type: ActionTypes.Stats.AddToHistory,
+    type: ActionTypes.Stats.AddToHistory
   };
 }
 
 function loadNewText() {
   return (dispatch, getState) => {
     dispatch(updateTextLoadingStatus(true, null));
-    const url = getSourceURLForFile(getState().stringDisplay.textType);
-    axios.get(url)
-      .then((response) => {
-        dispatch(updateTextLoadingStatus(false, true));
-        dispatch(addNewTextToApp(response.data));
+    const txtType = getState().stringDisplay.textType;
+    getDynamicUrlForSrc(txtType)
+      .then(url=>{
+        axios
+          .get(url)
+          .then(response => {
+            dispatch(updateTextLoadingStatus(false, true));
+            dispatch(addNewTextToApp(response.data));
+          })
+          .catch(err => {
+            dispatch(updateTextLoadingStatus(false, false));
+          });
       })
-      .catch((err) => {
+      .catch(err =>{
         dispatch(updateTextLoadingStatus(false, false));
-      });
+      })
   };
 }
 
 function snapshotActiveTest() {
   return {
-    type: ActionTypes.Stats.SnapshotTest,
+    type: ActionTypes.Stats.SnapshotTest
   };
 }
 
 function calibrateStatsMaxMins() {
   return {
-    type: ActionTypes.Stats.CalibrateMaxMin,
+    type: ActionTypes.Stats.CalibrateMaxMin
   };
 }
 
@@ -161,5 +177,5 @@ export {
   enterKeyPressed,
   backspacePressed,
   tabPressed,
-  ActionTypes,
+  ActionTypes
 };
