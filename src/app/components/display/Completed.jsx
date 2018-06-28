@@ -104,7 +104,7 @@ class Completed extends Component {
         </div>
       );
     }
-    return (<div className="no-stats">The are currently no stats.</div>);
+    return (<div className="no-stats">There are currently no stats.</div>);
   }
   renderWeakestKeysList() {
     if (this.props.finalStats && this.props.finalStats.rollingStats.touched !==
@@ -135,7 +135,7 @@ class Completed extends Component {
     if (weakestKeysList.length > 0){
       return (
         <div className="weakest-keys">
-          <span>These are you weakest keys: </span>
+          <span>These are your weakest keys: </span>
           <ul>{this.renderWeakestKeysList()}</ul>
         </div>
       );

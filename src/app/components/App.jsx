@@ -38,6 +38,7 @@ class App extends Component {
           shouldDisplayComplete={stringDisplay.shouldDisplayComplete}
           sessionHistories={stringDisplay.sessionHistories}
         />
+        <div className="divider"></div>
         <TimeSeries
           dispatch={store.dispatch}
           snapshots={stringDisplay.snapshots}

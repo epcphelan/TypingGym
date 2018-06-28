@@ -87,29 +87,12 @@ function changeTextType(textType) {
   };
 }
 
-function getSourceURLForFile(txtType) {
-  const staticRoot = "/static/texts/";
-  switch (txtType) {
-    case "js":
-      return `${staticRoot}js/sample.txt`;
-    case "html":
-      return `${staticRoot}html/sample.txt`;
-    case "prose":
-      return `${staticRoot}prose/sample.txt`;
-    case "swift":
-      return `${staticRoot}swift/sample.txt`;
-    default:
-      return `${staticRoot}prose/sample.txt`;
-  }
-}
-
 async function getDynamicUrlForSrc(txtType){
-  const listing = `/static/texts/${txtType}/listing.json`;
+  const listing = `./static/texts/${txtType}/listing.json`;
   const res = await axios.get(listing);
   const content = res.data;
   const randIndex = Math.round(Math.random() * (content.length - 1));
-  console.log(randIndex)
-  return `/static/texts/${txtType}/${content[randIndex]}`;
+  return `./static/texts/${txtType}/${content[randIndex]}`;
 }
 function showComplete() {
   return {
