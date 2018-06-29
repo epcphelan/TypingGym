@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require('webpack');
 
 module.exports = {
-  mode: 'production',
   entry: [
     './src/app/index.js'
   ],
@@ -14,14 +13,6 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
-  devServer: {
-    contentBase: './dist',
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    port: 3000, // Defaults to 8080
-  },
-
   module: {
     rules: [
       {
