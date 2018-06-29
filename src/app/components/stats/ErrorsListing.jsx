@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class ErrorsListing extends Component {
   shouldComponentUpdate(nextProps) {
@@ -19,15 +19,19 @@ class ErrorsListing extends Component {
   render() {
     return (
       <ul>
-        {this.listErrors()
-          .map(item => (<li key={`char-${item.char}`}> {item.char} : {item.count} </li>))}
+        {this.listErrors().map(item => (
+          <li key={`char-${item.char}`}>
+            {" "}
+            {item.char} : {item.count}{" "}
+          </li>
+        ))}
       </ul>
     );
   }
 }
 
 ErrorsListing.propTypes = {
-  rollingErrors: PropTypes.object,
+  rollingErrors: PropTypes.object
 };
 ErrorsListing.defaultProps = {};
 

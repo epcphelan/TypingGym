@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { classes } from '../common/utils';
-import { loadNewText } from '../../actions';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { classes } from "../common/utils";
+import { loadNewText } from "../../actions";
 
 class Completed extends Component {
   static calculateStatsDeltas(stats, prevStats) {
@@ -10,7 +10,7 @@ class Completed extends Component {
       accuracy: null,
       words: null,
       errors: null,
-      corrected: null,
+      corrected: null
     };
     if (prevStats && prevStats.rollingStats) {
       const prev = prevStats.rollingStats;
@@ -26,16 +26,16 @@ class Completed extends Component {
   }
   static renderDirectionIcon(value) {
     switch (true) {
-      case value > 0 :
-        return (<i className="positive" />);
-      case value < 0 :
-        return (<i className="negative" />);
+      case value > 0:
+        return <i className="positive" />;
+      case value < 0:
+        return <i className="negative" />;
       default:
-        return (<i className="unchanged" />);
+        return <i className="unchanged" />;
     }
   }
   static renderValue(value) {
-    return value !== null ? Math.round(value) : '-';
+    return value !== null ? Math.round(value) : "-";
   }
   constructor(props) {
     super(props);
@@ -52,9 +52,12 @@ class Completed extends Component {
   renderStatsSummary() {
     if (this.props.finalStats) {
       const finalStats = this.props.finalStats.rollingStats;
-      const statsDeltas =
-        Completed.calculateStatsDeltas(finalStats, this.props.previousStats);
-      const errorsCurrent = finalStats.touched - finalStats.corrected - finalStats.correct;
+      const statsDeltas = Completed.calculateStatsDeltas(
+        finalStats,
+        this.props.previousStats
+      );
+      const errorsCurrent =
+        finalStats.touched - finalStats.corrected - finalStats.correct;
       return (
         <div className="stats-summary">
           <div className="level-one">
@@ -83,9 +86,7 @@ class Completed extends Component {
               <div className="label">Words</div>
             </div>
             <div className="stats-block">
-              <div className="value">
-                {errorsCurrent}
-              </div>
+              <div className="value">{errorsCurrent}</div>
               <div className="value-change">
                 {Completed.renderDirectionIcon(statsDeltas.errors)}
                 {Completed.renderValue(statsDeltas.errors)}
@@ -104,11 +105,14 @@ class Completed extends Component {
         </div>
       );
     }
-    return (<div className="no-stats">There are currently no stats.</div>);
+    return <div className="no-stats">There are currently no stats.</div>;
   }
   renderWeakestKeysList() {
-    if (this.props.finalStats && this.props.finalStats.rollingStats.touched !==
-      this.props.finalStats.rollingStats.correct) {
+    if (
+      this.props.finalStats &&
+      this.props.finalStats.rollingStats.touched !==
+        this.props.finalStats.rollingStats.correct
+    ) {
       const errorDictionary = this.props.finalStats.rollingErrors;
       const list = [];
       const charKeys = Object.keys(errorDictionary);
@@ -119,20 +123,19 @@ class Completed extends Component {
       }
       list.sort((x, y) => y.count - x.count);
       const truncatedList = list.splice(0, 5);
-      return truncatedList.map((key) => (
+      return truncatedList.map(key => (
         <div className="weak-key-block" key={key.char}>
           <div className="key detail">{key.char}</div>
           <div className="divider detail">x</div>
           <div className="count detail">{key.count}</div>
         </div>
-        )
-      );
+      ));
     }
-    return (<div className="no-weak-keys">Nice work, you made no mistakes!</div>);
+    return <div className="no-weak-keys">Nice work, you made no mistakes!</div>;
   }
   renderWeakestKeys() {
     const weakestKeysList = this.renderWeakestKeysList();
-    if (weakestKeysList.length > 0){
+    if (weakestKeysList.length > 0) {
       return (
         <div className="weakest-keys">
           <span>These are your weakest keys: </span>
@@ -146,14 +149,13 @@ class Completed extends Component {
         </div>
       );
     }
-
   }
   bindTerminalInput(input) {
     this.terminalInput = input;
   }
   didTypeTerminalResponse(e) {
-    if (e.key === 'Enter') {
-      if (this.terminalInput.value === 'Yes'){
+    if (e.key === "Enter") {
+      if (this.terminalInput.value === "Yes") {
         this.resetWithNewSession();
       }
     }
@@ -164,36 +166,37 @@ class Completed extends Component {
   render() {
     const classNames = {
       completed: true,
-      displayed: this.props.shouldDisplay,
+      displayed: this.props.shouldDisplay
     };
     return (
       <div className={classes(classNames)}>
-        <h4 className="completed-header">
-          +++ Session Completed +++
-        </h4>
+        <h4 className="completed-header">+++ Session Completed +++</h4>
         {this.renderStatsSummary()}
         {this.renderWeakestKeys()}
         <label>Start another session? [Yes/no]</label>
         <input
           type="text"
           className="terminal-prompt"
-          onKeyUp={(e) => { this.didTypeTerminalResponse(e); }}
-          ref={(input) => { this.bindTerminalInput(input); }}
+          onKeyUp={e => {
+            this.didTypeTerminalResponse(e);
+          }}
+          ref={input => {
+            this.bindTerminalInput(input);
+          }}
         />
       </div>
     );
   }
-
 }
 
 Completed.propTypes = {
   shouldDisplay: PropTypes.bool,
   dispatch: PropTypes.func,
   finalStats: PropTypes.object,
-  previousStats: PropTypes.object,
+  previousStats: PropTypes.object
 };
 Completed.defaultProps = {
-  shouldDisplay: false,
+  shouldDisplay: false
 };
 
 export default Completed;

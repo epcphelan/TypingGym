@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import LanguageOption from './LanguageOption';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import LanguageOption from "./LanguageOption";
 
 class Controls extends Component {
   constructor(props) {
@@ -9,12 +9,28 @@ class Controls extends Component {
   }
   getLanguageOptions() {
     const options = [
-      { label: 'JS', textType: 'js', active: this.props.currentLanguage === 'js' },
-      { label: 'HTML', textType: 'html', active: this.props.currentLanguage === 'html' },
-      { label: 'Prose', textType: 'prose', active: this.props.currentLanguage === 'prose' },
-      { label: 'Swift', textType: 'swift', active: this.props.currentLanguage === 'swift' },
+      {
+        label: "JS",
+        textType: "js",
+        active: this.props.currentLanguage === "js"
+      },
+      {
+        label: "HTML",
+        textType: "html",
+        active: this.props.currentLanguage === "html"
+      },
+      {
+        label: "Prose",
+        textType: "prose",
+        active: this.props.currentLanguage === "prose"
+      },
+      {
+        label: "Swift",
+        textType: "swift",
+        active: this.props.currentLanguage === "swift"
+      }
     ];
-    return options.map((option) => (
+    return options.map(option => (
       <LanguageOption
         label={option.label}
         textType={option.textType}
@@ -22,8 +38,7 @@ class Controls extends Component {
         active={option.active}
         key={option.textType}
       />
-      )
-    );
+    ));
   }
   handleOnCLick(textType) {
     this.props.changeTextType(textType);
@@ -31,9 +46,7 @@ class Controls extends Component {
   render() {
     return (
       <div>
-        <div className="controls">
-          {this.getLanguageOptions()}
-        </div>
+        <div className="controls">{this.getLanguageOptions()}</div>
       </div>
     );
   }
@@ -41,7 +54,7 @@ class Controls extends Component {
 
 Controls.propTypes = {
   changeTextType: PropTypes.func.isRequired,
-  currentLanguage: PropTypes.string,
+  currentLanguage: PropTypes.string
 };
 Controls.defaultProps = {};
 

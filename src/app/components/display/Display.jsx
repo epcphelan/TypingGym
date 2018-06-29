@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { loadNewText, changeTextType } from '../../actions';
-import StringCharacter from './StringCharacter';
-import Completed from './Completed';
-import Controls from './Controls';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { loadNewText, changeTextType } from "../../actions";
+import StringCharacter from "./StringCharacter";
+import Completed from "./Completed";
+import Controls from "./Controls";
 
 class Display extends Component {
   constructor(props) {
     super(props);
     this.dispatch = props.dispatch;
     this.styles = {
-      whiteSpace: 'pre-wrap',
+      whiteSpace: "pre-wrap"
     };
     this.updateTextType = this.updateTextType.bind(this);
     this.bindActiveCharSpan = this.bindActiveCharSpan.bind(this);
@@ -23,9 +23,12 @@ class Display extends Component {
     return this.props.stringMap !== nextProps.stringMap;
   }
   componentDidUpdate() {
-    if (this.activeCharSpan){
+    if (this.activeCharSpan) {
       const halfway = this.textPanel.offsetHeight / 2;
-      this.textPanel.scrollTop = Math.max(this.activeCharSpan.offsetTop - halfway, 0);
+      this.textPanel.scrollTop = Math.max(
+        this.activeCharSpan.offsetTop - halfway,
+        0
+      );
     }
   }
   getCurrentLanguage() {
@@ -41,16 +44,18 @@ class Display extends Component {
     if (this.props.stringMap) {
       const currentPosition = this.props.currentPosition;
       return this.props.stringMap.map((item, index) => {
-        return (<StringCharacter
-          key={index}
-          currentPosition={currentPosition}
-          index={index}
-          item={item}
-          bindActiveCharSpan={this.bindActiveCharSpan}
-        />);
+        return (
+          <StringCharacter
+            key={index}
+            currentPosition={currentPosition}
+            index={index}
+            item={item}
+            bindActiveCharSpan={this.bindActiveCharSpan}
+          />
+        );
       });
     }
-    return 'Nothing Typed';
+    return "Nothing Typed";
   }
   updateTextType(textType) {
     this.dispatch(changeTextType(textType));
@@ -58,18 +63,23 @@ class Display extends Component {
   }
   render() {
     const sessionHistories = this.props.sessionHistories;
-    const prevStats = sessionHistories.length > 1 ?
-      sessionHistories[sessionHistories.length - 2] : null;
+    const prevStats =
+      sessionHistories.length > 1
+        ? sessionHistories[sessionHistories.length - 2]
+        : null;
     return (
       <div className="type-display" style={this.styles}>
         <Controls
           changeTextType={this.updateTextType}
           currentLanguage={this.getCurrentLanguage()}
         />
-        <div ref={(div) => { this.bindTextPanel(div); }} className="text-panel">
-          <div className="annotated-string">
-            {this.displayCurrentString()}
-          </div>
+        <div
+          ref={div => {
+            this.bindTextPanel(div);
+          }}
+          className="text-panel"
+        >
+          <div className="annotated-string">{this.displayCurrentString()}</div>
           <Completed
             shouldDisplay={this.props.shouldDisplayComplete}
             dispatch={this.props.dispatch}
@@ -89,7 +99,7 @@ Display.propTypes = {
   textType: PropTypes.string,
   completed: PropTypes.element,
   shouldDisplayComplete: PropTypes.bool,
-  sessionHistories: PropTypes.array,
+  sessionHistories: PropTypes.array
 };
 
 Display.defaultProps = {};

@@ -87,7 +87,7 @@ function changeTextType(textType) {
   };
 }
 
-async function getDynamicUrlForSrc(txtType){
+async function getDynamicUrlForSrc(txtType) {
   const listing = `./static/texts/${txtType}/listing.json`;
   const res = await axios.get(listing);
   const content = res.data;
@@ -117,7 +117,7 @@ function loadNewText() {
     dispatch(updateTextLoadingStatus(true, null));
     const txtType = getState().stringDisplay.textType;
     getDynamicUrlForSrc(txtType)
-      .then(url=>{
+      .then(url => {
         axios
           .get(url)
           .then(response => {
@@ -128,9 +128,9 @@ function loadNewText() {
             dispatch(updateTextLoadingStatus(false, false));
           });
       })
-      .catch(err =>{
+      .catch(err => {
         dispatch(updateTextLoadingStatus(false, false));
-      })
+      });
   };
 }
 

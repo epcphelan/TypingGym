@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class Finger extends Component {
   shouldComponentUpdate(nextProps) {
@@ -8,16 +8,14 @@ class Finger extends Component {
   render() {
     const { index, isActive } = this.props;
     return (
-      <div
-        className={`finger finger-${index} ${isActive ? 'active' : ''}`}
-      />
+      <div className={`finger finger-${index} ${isActive ? "active" : ""}`} />
     );
   }
 }
 
 Finger.propTypes = {
   index: PropTypes.number,
-  isActive: PropTypes.bool,
+  isActive: PropTypes.bool
 };
 Finger.defaultProps = {};
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 class LanguageOption extends React.Component {
   constructor(props) {
@@ -10,9 +10,12 @@ class LanguageOption extends React.Component {
     this.props.changeTextType(this.props.textType);
   }
   render() {
-    const classes = `${this.props.active ? 'active' : ''} switch-language`;
+    const classes = `${this.props.active ? "active" : ""} switch-language`;
     return (
-      <div className={classes} onClick={this.handleOnCLick} > {this.props.label} </div>
+      <div className={classes} onClick={this.handleOnCLick}>
+        {" "}
+        {this.props.label}{" "}
+      </div>
     );
   }
 }
@@ -21,7 +24,7 @@ LanguageOption.propTypes = {
   changeTextType: PropTypes.func,
   textType: PropTypes.string,
   label: PropTypes.string,
-  active: PropTypes.bool,
+  active: PropTypes.bool
 };
 
 export default LanguageOption;

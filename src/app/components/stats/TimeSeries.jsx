@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { snapshotActiveTest } from '../../actions';
-import TimeSeriesDataPoint from './TimeSeriesDataPoint';
-import { calculateTrailingAvgPerformance } from './Utils';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { snapshotActiveTest } from "../../actions";
+import TimeSeriesDataPoint from "./TimeSeriesDataPoint";
+import { calculateTrailingAvgPerformance } from "./Utils";
 
 class TimeSeries extends Component {
   constructor(props) {
@@ -21,21 +21,26 @@ class TimeSeries extends Component {
   }
   renderPlot() {
     const calculatePointInRange = (top, bottom, value) =>
-      (((value - bottom) / (top - bottom)) * 100);
+      ((value - bottom) / (top - bottom)) * 100;
     const maxAccuracy = 100;
     const minAccuracy = this.props.rollingStats.accuracyMin * 0.75;
-    const maxWPM = this.props.rollingStats.wpmMax * 1.50;
+    const maxWPM = this.props.rollingStats.wpmMax * 1.5;
     const minWPM = this.props.rollingStats.wpmMin * 0.7;
-    const trailingPerformance = calculateTrailingAvgPerformance(this.props.stringMap);
+    const trailingPerformance = calculateTrailingAvgPerformance(
+      this.props.stringMap
+    );
     return trailingPerformance.map((item, index) => {
       const accuracyPoint = calculatePointInRange(
-        maxAccuracy, minAccuracy, item.accuracy);
+        maxAccuracy,
+        minAccuracy,
+        item.accuracy
+      );
       const accuracyStyle = {
-        height: `${accuracyPoint}%`,
+        height: `${accuracyPoint}%`
       };
       const wpmPoint = calculatePointInRange(maxWPM, minWPM, item.wpm);
       const wpmStyle = {
-        height: `${wpmPoint}%`,
+        height: `${wpmPoint}%`
       };
       return (
         <TimeSeriesDataPoint
@@ -48,14 +53,10 @@ class TimeSeries extends Component {
   }
 
   render() {
-    if (this.props.shouldDisplayComplete === true){
-      return (
-        <div className="stats-series">
-          {this.renderPlot()}
-        </div>
-      );
+    if (this.props.shouldDisplayComplete === true) {
+      return <div className="stats-series">{this.renderPlot()}</div>;
     } else {
-      return (<div className="stats-series" />);
+      return <div className="stats-series" />;
     }
   }
 }
@@ -67,7 +68,7 @@ TimeSeries.propTypes = {
   rollingStats: PropTypes.object,
   currentPosition: PropTypes.number,
   stringMap: PropTypes.array,
-  shouldDisplayComplete: PropTypes.bool,
+  shouldDisplayComplete: PropTypes.bool
 };
 TimeSeries.defaultProps = {};
 

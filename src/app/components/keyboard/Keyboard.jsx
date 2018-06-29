@@ -1,23 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   charKeyPressed,
   tabPressed,
   backspacePressed,
   enterKeyPressed,
-  startRecordingSession,
-} from '../../actions';
-import TypeAssist from './TypeAssist';
-import Fingers from './Fingers';
+  startRecordingSession
+} from "../../actions";
+import TypeAssist from "./TypeAssist";
+import Fingers from "./Fingers";
 
-class Keyboard extends React.Component{
+class Keyboard extends React.Component {
   constructor(props) {
     super(props);
     this.dispatch = this.props.dispatch;
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', (e) => { this.handleKeyTyped(e); });
+    document.addEventListener("keydown", e => {
+      this.handleKeyTyped(e);
+    });
   }
   shouldComponentUpdate() {
     return true;
@@ -26,10 +28,7 @@ class Keyboard extends React.Component{
     this.dispatch(startRecordingSession(new Date()));
   }
   isRecordingSession() {
-    return (
-      this.props.activeTest
-      && this.props.testStartDate
-    );
+    return this.props.activeTest && this.props.testStartDate;
   }
   handleKeyTyped(e) {
     if (this.props.activeTest) {
@@ -42,16 +41,16 @@ class Keyboard extends React.Component{
     }
     if (this.props.activeTest) {
       switch (e.key) {
-        case 'Backspace' :
+        case "Backspace":
           this.dispatch(backspacePressed());
           break;
-        case 'Tab' :
+        case "Tab":
           this.dispatch(tabPressed());
           break;
-        case 'Enter' :
+        case "Enter":
           this.dispatch(enterKeyPressed());
           break;
-        default :
+        default:
           if (e.key.length === 1) {
             this.dispatch(charKeyPressed(e.key));
           }
@@ -60,41 +59,49 @@ class Keyboard extends React.Component{
   }
   calculateErrorHeatMap() {
     const currentStats = this.props.rollingStats;
-    const totalErrors = currentStats.touched - currentStats.correct + currentStats.corrected;
+    const totalErrors =
+      currentStats.touched - currentStats.correct + currentStats.corrected;
     const errorHeatMap = Object.assign({}, this.props.rollingErrors);
     const charKeys = Object.keys(errorHeatMap);
     for (const char of charKeys) {
       if (errorHeatMap.hasOwnProperty(char)) {
-        errorHeatMap[char] = Math.round((errorHeatMap[char] / totalErrors) * 100) / 100;
+        errorHeatMap[char] =
+          Math.round((errorHeatMap[char] / totalErrors) * 100) / 100;
       }
     }
     return errorHeatMap;
   }
   mapActiveCharToArrayOfKeyChars(activeChar) {
     switch (true) {
-      case (activeChar === '\n') :
-        return ['enter'];
-      case (activeChar === ' ') :
-        return ['space'];
-      case (/[A-Z~!@#$%^&*()_+}{|":?><]/.test(activeChar)) :
+      case activeChar === "\n":
+        return ["enter"];
+      case activeChar === " ":
+        return ["space"];
+      case /[A-Z~!@#$%^&*()_+}{|":?><]/.test(activeChar):
         switch (true) {
-          case (/[QWERTASDFGZXCVB~!@#$%^]/.test(activeChar)) :
-            return ['shift-r', activeChar];
-          default :
-            return ['shift-l', activeChar];
+          case /[QWERTASDFGZXCVB~!@#$%^]/.test(activeChar):
+            return ["shift-r", activeChar];
+          default:
+            return ["shift-l", activeChar];
         }
-      default :
+      default:
         return [activeChar];
     }
-  };
+  }
   render() {
     return (
       <div className="Keyboard">
         <TypeAssist
-          activeChars={this.mapActiveCharToArrayOfKeyChars(this.props.activeChar)}
+          activeChars={this.mapActiveCharToArrayOfKeyChars(
+            this.props.activeChar
+          )}
           errorHeatMap={this.calculateErrorHeatMap()}
         />
-        <Fingers activeChars={this.mapActiveCharToArrayOfKeyChars(this.props.activeChar)} />
+        <Fingers
+          activeChars={this.mapActiveCharToArrayOfKeyChars(
+            this.props.activeChar
+          )}
+        />
       </div>
     );
   }
@@ -107,8 +114,7 @@ Keyboard.propTypes = {
   activeChar: PropTypes.string,
   rollingErrors: PropTypes.object,
   rollingStats: PropTypes.object,
-  shouldDisplayComplete: PropTypes.bool,
+  shouldDisplayComplete: PropTypes.bool
 };
-
 
 export default Keyboard;
